@@ -9,4 +9,10 @@ const create = async (newUser: IUser): Promise<void> => {
   );
 };
 
-export default { create };
+const getAll = async (): Promise<IUser[]> => {
+  const [allUsers] = await connection.execute('SELECT * FROM Trybesmith.Users');
+
+  return allUsers as IUser[];
+};
+
+export default { create, getAll };

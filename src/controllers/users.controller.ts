@@ -15,4 +15,16 @@ const create = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export default { create };
+const login = (req: Request, res: Response): Response => {
+  try {
+    const { body } = req;
+
+    const token = generateToken(body.username, body.password);
+
+    return res.status(200).json({ token });
+  } catch (error) {
+    return res.status(500).json({ message: 'an error ocurred' });
+  }
+};
+
+export default { create, login };
