@@ -13,4 +13,10 @@ const create = async (name: string, amount: string): Promise<IProduct> => {
   return { id, name, amount };
 };
 
-export default { create };
+const getAll = async (): Promise<IProduct[]> => {
+  const [result] = await connection.execute('SELECT * FROM Trybesmith.Products;');
+
+  return result as Array<IProduct>;
+};
+
+export default { create, getAll };

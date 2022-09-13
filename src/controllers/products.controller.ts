@@ -9,8 +9,18 @@ const create = async (req: Request, res: Response): Promise<Response> => {
 
     return res.status(201).json(newProduct);
   } catch (error) {
-    return res.status(500).json({ message: 'an error ocurred ' });
+    return res.status(500).json({ message: 'an error ocurred' });
   }
 };
 
-export default { create };
+const getAll = async (_req: Request, res: Response): Promise<Response> => {
+  try {
+    const products = await productsService.getAll();
+
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ message: 'an error ocurred' });
+  }
+};
+
+export default { create, getAll };
