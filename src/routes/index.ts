@@ -4,6 +4,7 @@ import usersController from '../controllers/users.controller';
 import ordersController from '../controllers/orders.controller';
 import loginAuthenticate from '../middlewares/login.authenticate';
 import productAuthenticate from '../middlewares/product.authenticate';
+import userAuthenticate from '../middlewares/user.authenticate';
 
 const productsRouter = Router();
 const usersRouter = Router();
@@ -18,7 +19,14 @@ productsRouter.post(
 );
 productsRouter.get('/products', productsController.getAll);
 
-usersRouter.post('/users', usersController.create);
+usersRouter.post(
+  '/users',
+  userAuthenticate.validateUsernameField,
+  userAuthenticate.validateClasseField,
+  userAuthenticate.validateLevelField,
+  userAuthenticate.validatePasswordField,
+  usersController.create,
+);
 loginRouter.post(
   '/login',
   loginAuthenticate.validateFields,
