@@ -2,7 +2,7 @@ import { Router } from 'express';
 import productsController from '../controllers/products.controller';
 import usersController from '../controllers/users.controller';
 import ordersController from '../controllers/orders.controller';
-import userAuthenticate from '../middlewares/user.authenticate';
+import loginAuthenticate from '../middlewares/login.authenticate';
 import productAuthenticate from '../middlewares/product.authenticate';
 
 const productsRouter = Router();
@@ -21,8 +21,8 @@ productsRouter.get('/products', productsController.getAll);
 usersRouter.post('/users', usersController.create);
 loginRouter.post(
   '/login',
-  userAuthenticate.validateFields,
-  userAuthenticate.validateUser,
+  loginAuthenticate.validateFields,
+  loginAuthenticate.validateUser,
   usersController.login,
 );
 
