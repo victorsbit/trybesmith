@@ -5,6 +5,7 @@ import ordersController from '../controllers/orders.controller';
 import loginAuthenticate from '../middlewares/login.authenticate';
 import productAuthenticate from '../middlewares/product.authenticate';
 import userAuthenticate from '../middlewares/user.authenticate';
+import orderAuthenticate from '../middlewares/order.authenticate';
 
 const productsRouter = Router();
 const usersRouter = Router();
@@ -35,5 +36,11 @@ loginRouter.post(
 );
 
 ordersRouter.get('/orders', ordersController.getAll);
+ordersRouter.post(
+  '/orders',
+  loginAuthenticate.validateToken,
+  orderAuthenticate.validateProductsIdsField,
+  ordersController.create,
+);
 
 export default { productsRouter, usersRouter, ordersRouter, loginRouter };

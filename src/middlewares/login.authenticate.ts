@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { verify } from 'jsonwebtoken';
 import usersModel from '../models/users.model';
 
 const validateFields = (req: Request, res: Response, next: NextFunction) => {
@@ -26,4 +27,19 @@ const validateUser = async (req: Request, res: Response, next: NextFunction) => 
   next();
 };
 
-export default { validateFields, validateUser };
+const validateToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { authorization: token } = req.headers;
+
+    if (!token) return res.status(401).json({ message: 'Token not found' });
+
+    const user = verify(token, 'password');
+    req.body.user = user;
+  } catch (e) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+
+  next();
+};
+
+export default { validateFields, validateUser, validateToken };

@@ -11,4 +11,17 @@ const getAll = async (_req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export default { getAll };
+const create = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { username } = req.body.user;
+    const { productsIds } = req.body;
+
+    const newOrder = await ordersService.create(productsIds, username);
+
+    return res.status(201).json(newOrder);
+  } catch (error) {
+    return res.status(500).json({ message: 'an error ocurred' });
+  }
+};
+
+export default { getAll, create };

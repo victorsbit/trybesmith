@@ -19,4 +19,9 @@ const getAll = async (): Promise<IProduct[]> => {
   return result as Array<IProduct>;
 };
 
-export default { create, getAll };
+const update = async (orderId: number, productId: number): Promise<void> => {
+  await connection.execute(`UPDATE Trybesmith.Products
+    SET orderId = ? WHERE id = ?`, [orderId, productId]);
+};
+
+export default { create, getAll, update };
